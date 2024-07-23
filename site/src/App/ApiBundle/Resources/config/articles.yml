@@ -13,6 +13,11 @@ api_articles_post:
     defaults: { _controller: AppApiBundle:Articles:post }
     methods: [POST]
 
+api_articles_post_improvement:
+    path:     /articles/improvement/
+    defaults: { _controller: AppApiBundle:Articles:improvement }
+    methods: [POST]
+
 api_articles_put:
     path:     /articles/{id}
     defaults: { _controller: AppApiBundle:Articles:put }

@@ -31,6 +31,7 @@ class SettingsFixture extends AbstractFixture implements OrderedFixtureInterface
         $setting->setId("setting");
         $setting->setTitle("Openhost");
         $setting->setCopyright("© " . date('Y') . " - Openhost");
+        $setting->setApiKey("-----------------------");
         $manager->persist($setting);
         $manager->flush();
     }

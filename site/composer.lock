@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f60b1b32cdbac35e7a0f822ffbd95f17",
+    "content-hash": "7f848f08863f60023e7e0677befc3acc",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -4357,16 +4357,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v5.4.40",
+            "version": "v5.4.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "970a4d5a3393be3ba987b91a018e98ee332db63b"
+                "reference": "87ca825717928d178de8a3458f163100925fb675"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/970a4d5a3393be3ba987b91a018e98ee332db63b",
-                "reference": "970a4d5a3393be3ba987b91a018e98ee332db63b",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/87ca825717928d178de8a3458f163100925fb675",
+                "reference": "87ca825717928d178de8a3458f163100925fb675",
                 "shasum": ""
             },
             "require": {
@@ -4428,7 +4428,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v5.4.40"
+                "source": "https://github.com/symfony/http-client/tree/v5.4.41"
             },
             "funding": [
                 {
@@ -4444,7 +4444,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-31T14:33:22+00:00"
+            "time": "2024-06-28T07:25:22+00:00"
         },
         {
             "name": "symfony/http-client-contracts",

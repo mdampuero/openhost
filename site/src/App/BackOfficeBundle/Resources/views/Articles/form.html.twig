@@ -16,15 +16,108 @@
 			{{ render(controller('App\\BackOfficeBundle\\Controller\\ArticlesController::form',{ entity: entity})) }}
 		</div>
 	</div>
+	<div class="modal fade" id="modalAI" tabindex="-1" role="dialog" aria-labelledby="modalAILabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAILabel">Utilizar AI</h5>
+                    <button type="button" class="close" onclick="closeModalAI()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+					<div class="form-body">
+						<div class="row p-t-20">
+							<div class="col-lg-12">
+								<div class="form-group input-group">
+									<input type="search" class="form-control" placeholder="Ingrese un texto..." id="inputAI">
+									<div class="input-group-addon cursor-pointer text-info" onclick="callAI()">
+										<i class="ti-search"></i>
+									</div>
+								</div>
+								<div class="form-group">
+									<h5>Texto original</h5>
+									<p id="original"></p>
+								</div>
+								<div class="form-group">
+									<h5>Texto sugerido</h5>
+									<p id="new"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock body %}
 {% block javascripts %}
 	{{ parent() }}
 	<script>
+		var inputForm;
+		var suggestedText;
 		function beforeSuccess() {
             location.href ="{{ path(pathBase) }}";
         }
         function cancell() {
             location.href ='{{ path(pathBase) }}';
         }
+		function openModalAI(input){
+			inputForm = input;
+			let originalText = $("#"+input).val();
+			let promptDefault = '';
+			switch(input){
+				case 'title':
+					promptDefault=(originalText)?`Mejora este título "${originalText}" en términos de SEO en 64 caracteres`:'';
+				break;
+				case 'description':
+					promptDefault=(originalText)?`Mejora este resumen "${originalText}" en términos de SEO`:'';
+				break;
+				case 'body':
+					promptDefault=(originalText)?`Mejora este contenido "${originalText}" en términos de SEO`:'';
+				break;
+			}
+			$("#inputAI").val(promptDefault);
+			$("#original").html(($("#"+input).val())?$("#"+input).val():'<i>Sin definir</i>');
+			$("#modalAI").modal("show");
+		}
+		function closeModalAI(){
+			suggestedText = '';
+			$("#inputAI").val('');
+			$("#new").html('');
+			$("#original").html('');
+			$("#modalAI").modal("hide");
+		}
+		function aceptText(){
+			$("#"+inputForm).val(suggestedText);
+			closeModalAI();
+		}
+		function callAI(){
+			loading.show();
+			$.ajax({
+				url: "{{ path('api_articles_post_improvement')}}",
+				type: 'POST',
+				data: JSON.stringify({
+					"text": $("#inputAI").val()
+				}),
+				crossDomain: true,
+				success: function (data) {
+					loading.hide();
+					suggestedText = data.message;
+					$("#new").html(`${data.message}<br/><button type="button" class="mt-2 btn btn-sm btn-success" title="Utilizar AI" onclick="aceptText()"> Utilizar este texto</button>`);
+				},
+                error:function (error){
+					loading.hide();
+                    $.toast({
+						heading: '{{ 'ERROR' | trans }}',
+						text: error.responseJSON.message,
+						position: 'top-right',
+						icon: 'error',
+						hideAfter: 6000, 
+						stack: 6
+					});
+                }
+			});
+		}
 	</script>
 {% endblock javascripts %}

@@ -49,6 +49,15 @@ class Setting
     /**
      * @var string
      *
+     * @ORM\Column(name="api_key", type="string", length=255)
+     * @Assert\NotBlank()
+     * @Expose
+     */
+    private $apiKey;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="copyright", type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -240,5 +249,29 @@ class Setting
     public function setUpdatedAtValue()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * Get the value of apiKey
+     *
+     * @return  string
+     */ 
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * Set the value of apiKey
+     *
+     * @param  string  $apiKey
+     *
+     * @return  self
+     */ 
+    public function setApiKey(string $apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
     }
 }

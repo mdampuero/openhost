@@ -1,37 +1,42 @@
-## Server
-```bash
-sudo apt-get update
-sudo apt-get install net-tools
-ifconfig
-sudo apt-get install samba
-ssh-keygen -t rsa -b 4096 -C "mdampuero@gmail.com"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa
-cat ~/.ssh/id_rsa.pub
-git clone git@github.com:mdampuero/orquideatech.git
-cd orquideatech/
-sudo apt  install docker.io
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-sudo usermod -aG docker $USER
-sudo nano /etc/samba/smb.conf
-[Public]
-   comment = Carpeta Pública
-   path = /home/ubuntu/orquideatech
-   browseable = yes
-   read only = no
-   guest ok = yes
-```
-
-
+# Admin Panel
+## Creator
+Mauricio Ampuero <mdampuero@gmail.com>
 ## Install
-
-```bash
-./install.sh
+### Clone
 ```
-
-## Test
-
-```bash
-docker exec -ti app-php composer test test/
+git clone https://gitlab.com/mdampuero/admin.git
 ```
+### Install dependencies
+```
+php composer.phar install
+```
+### Configure parameters
+```
+parameters.yml
+```
+### Create database
+```
+php bin/console doctrine:database:create
+```
+### Update schema
+```
+php bin/console doctrine:schema:update --force
+```
+### Install assets
+```
+php bin/console assets:install
+```
+### Clear cache
+```
+sudo sh clear.sh
+```
+### Load initial data
+```
+php bin/console doctrine:fixtures:load
+```
+_This script created a user admin@email.com with password: 123456, enter from your browser to the url http://domain.com/admin/web_
+### Clear cache
+```
+sudo sh clear.sh
+```
+# nortcuyo

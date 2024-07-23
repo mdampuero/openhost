@@ -7,6 +7,7 @@
 
 namespace App\ApiBundle\Controller;
 
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,15 +25,16 @@ class ArticlesController extends FOSRestController
         $limit = $request->query->get('length', 30);
         $sort = $request->query->get('sort', null);
         $direction = $request->query->get('direction', null);
-        return $this->handleView($this->view(
-            array(
-                'data' => $this->getDoctrine()->getRepository(Article::class)->search($query, $limit, $offset, $sort, $direction, [])->getQuery()->getResult(),
-                'recordsTotal' => $this->getDoctrine()->getRepository(Article::class)->total(),
-                'recordsFiltered' => $this->getDoctrine()->getRepository(Article::class)->searchTotal($query, $limit, $offset, null, null, []),
-                'offset' => $offset,
-                'limit' => $limit,
+        return $this->handleView(
+            $this->view(
+                array(
+                    'data' => $this->getDoctrine()->getRepository(Article::class)->search($query, $limit, $offset, $sort, $direction, [])->getQuery()->getResult(),
+                    'recordsTotal' => $this->getDoctrine()->getRepository(Article::class)->total(),
+                    'recordsFiltered' => $this->getDoctrine()->getRepository(Article::class)->searchTotal($query, $limit, $offset, null, null, []),
+                    'offset' => $offset,
+                    'limit' => $limit,
+                )
             )
-        )
         );
     }
 
@@ -84,6 +86,21 @@ class ArticlesController extends FOSRestController
             return $this->handleView($this->view($entity, Response::HTTP_OK));
         }
         return $this->handleView($this->view($form->getErrors(), Response::HTTP_BAD_REQUEST));
+    }
+
+    public function improvementAction(Request $request)
+    {
+        try {
+            $chatgptService = $this->get('Chatgpt');
+            $content = json_decode($request->getContent(), true);
+            if (!key_exists("text", $content) || !$content["text"]) {
+                return $this->handleView($this->view(["message" => "Ingrese un texto válido"], Response::HTTP_BAD_REQUEST));
+            }
+            return $this->handleView($this->view(["message" => trim($chatgptService->getSEOImprovements($content["text"]), '"')], Response::HTTP_OK));
+        } catch (Exception $e) {
+            return $this->handleView($this->view(["message" => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR));
+        }
+
     }
 
 }
