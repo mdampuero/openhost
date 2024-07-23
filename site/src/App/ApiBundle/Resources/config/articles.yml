@@ -1,0 +1,24 @@
+api_articles:
+    path:     /articles
+    defaults: { _controller: AppApiBundle:Articles:index }
+    methods: [GET]
+
+api_articles_get:
+    path:     /articles/{id}
+    defaults: { _controller: AppApiBundle:Articles:get }
+    methods: [GET]
+
+api_articles_post:
+    path:     /articles
+    defaults: { _controller: AppApiBundle:Articles:post }
+    methods: [POST]
+
+api_articles_put:
+    path:     /articles/{id}
+    defaults: { _controller: AppApiBundle:Articles:put }
+    methods: [PUT]
+
+api_articles_delete:
+    path:     /articles/{id}
+    defaults: { _controller: AppApiBundle:Articles:delete }
+    methods: [DELETE]

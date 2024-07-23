@@ -1,0 +1,9 @@
+services:
+    App\ApiBundle\Controller\UsersController:
+        class: App\ApiBundle\Controller\UsersController
+        autowire: true 
+        tags: ['controller.service_arguments']
+    App\ApiBundle\Controller\LoginController:
+        class: App\ApiBundle\Controller\LoginController
+        autowire: true 
+        tags: ['controller.service_arguments']

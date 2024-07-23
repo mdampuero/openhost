@@ -1,0 +1,35 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+    Symfony\Component\Serializer\SerializerInterface: '@serializer'
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+    App\BackEndBundle\DataFixtures\ORM\UsersFixture:
+        tags: ["doctrine.fixture.orm"]
+    App\BackEndBundle\DataFixtures\ORM\ArticlesFixture:
+        tags: ["doctrine.fixture.orm"]
+    App\BackEndBundle\DataFixtures\ORM\SettingsFixture:
+        tags: ["doctrine.fixture.orm"]
+    
+    api_bundle.api_header_subscriber:
+        class: App\ApiBundle\EventSubscriber\ApiHeaderSubscriber
+        arguments:
+            $jwtSecretKey: '%secret%'
+            $em: '@doctrine.orm.entity_manager'
+            $tokenStorage: '@security.token_storage'
+        tags:
+            - { name: kernel.event_subscriber }
+    app.token_service:
+        class: App\ApiBundle\Service\TokenService
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - 'Secreta007'
+    app.token_authenticator:
+        class: App\ApiBundle\Security\TokenAuthenticator
+        arguments:
+            - '@app.token_service'

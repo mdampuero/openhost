@@ -1,0 +1,50 @@
+app_backoffice_articles:
+    path:     /
+    defaults: 
+        _controller: AppBackOfficeBundle:Articles:index
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: ARTICLES
+            parent_route: app_backoffice_homepage
+            
+app_backoffice_articles_add:
+    path:     /new
+    defaults: { _controller: AppBackOfficeBundle:Articles:add }
+    options:
+        breadcrumb:
+            label: ADD_ARTICLE
+            parent_route: app_backoffice_articles
+    methods: [GET]
+
+app_backoffice_articles_landing:
+    path:     /landing/{id}
+    defaults: { _controller: AppBackOfficeBundle:Articles:landing }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: ARTICLE
+            parent_route: app_backoffice_articles
+
+app_backoffice_articles_get:
+    path:     /get/{id}
+    defaults: { _controller: AppBackOfficeBundle:Articles:get }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: ARTICLE
+            parent_route: app_backoffice_articles
+
+app_backoffice_articles_edit:
+    path:     /edit/{id}
+    defaults: { _controller: AppBackOfficeBundle:Articles:edit }
+    methods: [GET]
+    options:
+        breadcrumb:
+            label: EDIT_ARTICLE
+            parent_route: app_backoffice_articles
+
+app_backoffice_articles_delete:
+    path:     /delete/{id}
+    defaults: { _controller: AppBackOfficeBundle:Articles:delete }
+    methods: [POST,DELETE]

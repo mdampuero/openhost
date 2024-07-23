@@ -1,0 +1,11 @@
+services:
+    setting:
+        class: App\BackEndBundle\Service\Setting
+        arguments:
+                - '@doctrine.orm.entity_manager'
+    Utils:
+        class: App\BackEndBundle\Service\Utils
+    Base64Service:
+        class: App\BackEndBundle\Service\Base64Service
+    Image:
+        class: App\BackEndBundle\Service\Image

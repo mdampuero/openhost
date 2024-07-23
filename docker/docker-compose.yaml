@@ -1,0 +1,49 @@
+version: "3.5"
+services:
+    openhost-php:
+        build: ./php/.
+        container_name: openhost-php
+        mem_limit: 3g
+        working_dir: /var/www/site
+        volumes:
+            - ../site:/var/www/site
+        networks:
+            - bridge
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        environment:
+            PHP_IDE_CONFIG: "serverName=app"
+    openhost-nginx:
+        image: nginx:alpine
+        container_name: openhost-nginx
+        working_dir: /var/www/site
+        ports:
+            - 8080:80
+        volumes:
+            - ../site:/var/www/site
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - bridge
+    openhost-mysql:
+        image: mysql:8.0
+        container_name: openhost-mysql
+        command: mysqld --sql_mode=""
+        mem_limit: 1g
+        networks:
+            - bridge
+        ports:
+            - 3306:3306
+        expose:
+            - 3306
+        volumes:
+            - ../db/working:/var/lib/mysql
+            - ../db/backups:/var/db/backups
+            - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+        environment:
+            - MYSQL_DATABASE=openhost
+            - MYSQL_ROOT_PASSWORD=uPmyjZTiiRwj4v
+            - MYSQL_USER=openhost
+            - MYSQL_PASSWORD=uPmyjZTiiRwj4v
+networks:
+    bridge:
+        driver: bridge

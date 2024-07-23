@@ -1,0 +1,76 @@
+{% extends "AppBackOfficeBundle::layout.html.twig" %}
+{% block body %}
+	{{ parent()}}
+	<div class="row page-titles">
+		<div class="col-md-5 align-self-center">
+			<h3 class="text-themecolor">{{ 'REPORTS' | trans }}</h3>
+		</div>
+		<div class="col-md-7 align-self-center">
+			{% include 'AppBackOfficeBundle:_partials:breadcrumbs.html.twig'  %}
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="mb-5">
+				{% include 'AppBackOfficeBundle:Reports/_partials:bars.html.twig' with { 
+                title: 'TOTALS_BY' | trans ~ ' ' ~ byDay.title | trans ,
+                index:'day_total',
+                theme:'light1',
+                dataArray: byDay.data
+            } %}
+			</div>
+			<div class="mb-5">
+				{% include 'AppBackOfficeBundle:Reports/_partials:bars.html.twig' with { 
+                title: 'TOTALS_BY' | trans ~ ' ' ~ byDayAmount.title | trans ,
+                index:'day_amount',
+                theme:'light2',
+                dataArray: byDayAmount.data
+            } %}
+			</div>
+			<div class="mb-5">
+				{% include 'AppBackOfficeBundle:Reports/_partials:bars.html.twig' with { 
+                title: 'MARGIN_BY_DAY' | trans,
+                index:'day_amount_margin',
+                theme:'light1',
+                dataArray: byDayAmountMargin.data
+            } %}
+			</div>
+			<div class="mb-5">
+				{% include 'AppBackOfficeBundle:Reports/_partials:charts.html.twig' with { 
+                title: 'TOTALS_BY' | trans ~ ' ' ~ byOrderType.title | trans ,
+                index:'order_type_total',
+                theme:'light2',
+                dataArray: byOrderType.data
+            } %}
+			</div>
+			<div class="mb-5">
+				{% include 'AppBackOfficeBundle:Reports/_partials:charts.html.twig' with { 
+                title: 'TOTALS_BY' | trans ~ ' ' ~ byOrderTypeAmount.title | trans ,
+                index:'order_type_amount',
+                theme:'light1',
+                dataArray: byOrderTypeAmount.data
+            } %}
+			</div>
+			<div class="mb-5">
+				{% include 'AppBackOfficeBundle:Reports/_partials:charts.html.twig' with { 
+                title: 'TOTALS_BY' | trans ~ ' ' ~ byGroup.title | trans ,
+                index:'order_group',
+                theme:'light2',
+                dataArray: byGroup.data
+            } %}
+			</div>
+			<div class="mb-5">
+				{% include 'AppBackOfficeBundle:Reports/_partials:charts.html.twig' with { 
+                title: 'TOTALS_BY' | trans ~ ' ' ~ byGroupAmount.title | trans ,
+                index:'order_group_amount',
+                theme:'light1',
+                dataArray: byGroupAmount.data
+            } %}
+			</div>
+		</div>
+	</div>
+{% endblock body %}
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript" src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+{% endblock %}

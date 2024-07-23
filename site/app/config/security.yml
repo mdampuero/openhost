@@ -1,0 +1,57 @@
+security:
+    encoders:
+        App\BackEndBundle\Entity\User: bcrypt
+    providers:
+
+        our_db_provider:
+            entity:
+                class: AppBackEndBundle:User
+                property: email
+    firewalls:
+        # login:
+        #     pattern: ^/api/login 
+        #     stateless: true
+        #     json_login:
+        #         check_path: /api/login_check
+        #         username_path: email
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        # api:
+        #     pattern: ^/api/
+        #     stateless: true
+        #     provider: our_db_provider
+        #     guard:
+        #         authenticators:
+        #             - app.token_authenticator
+        admin:
+            remember_me:
+                secret:      "%secret%"
+                lifetime: 31536000 
+                domain:   ~ 
+            anonymous: ~
+            http_basic: ~
+            provider: our_db_provider
+            
+            logout:
+                path:   /admin/login/logout
+                target: /admin
+
+            form_login:
+                default_target_path: /admin/
+                always_use_default_target_path: true
+                login_path: security_login
+                check_path: security_login
+    role_hierarchy:
+        ROLE_OPER: ROLE_REPORT
+        ROLE_ADMIN: ROLE_OPER
+        ROLE_SUPER: ROLE_ADMIN
+
+    access_control:
+        - { path: ^/login/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/config/*, roles: [ROLE_SUPER] }
+        - { path: ^/admin/*, roles: [ROLE_OPER] }
+       
+        # - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/api/, roles: [ROLE_API] }

@@ -1,0 +1,51 @@
+<h4>{{ title }}</h4>
+<hr>
+<div class="row">
+    <div class="col-sm-6">
+        <div id="chartBar_{{ index }}" style="height: 300px; width: 100%;"></div>
+        <script type="text/javascript">
+            $(function (){
+                let data = {{ dataArray | json_encode | raw }};
+                let dataPoints = []
+                for(let i=0; i<data.length; i++){
+                    dataPoints.push({
+                        label: data[i]["name"],
+                        y: Number(data[i]["total"]),
+                    })
+                }
+
+                /* BAR */
+                var chartBar_{{ index }} = new CanvasJS.Chart("chartBar_{{ index }}", {
+                    animationEnabled: true,
+                    theme: "{{ theme }}", // "light1", "light2", "dark1", "dark2"
+                    data: [{        
+                        type: "column",
+                        legendMarkerColor: "grey",
+                        dataPoints
+                    }]
+                });
+                chartBar_{{ index }}.render();
+            });
+        </script>
+    </div>
+    <div class="col-sm-6">
+        <div class="table-reporting-overflow">
+            <table class="display nowrap table table-condensed table-striped s-14" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="text-left">{{ 'DESCRIPTION' | trans }}</th>
+                        <th class="text-right">{{ 'VALUE' | trans }}</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    {% for data in dataArray %}
+                    <tr>
+                        <td class="text-left">{{ data.name }}</td>
+                        <td class="text-right">{{ data.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

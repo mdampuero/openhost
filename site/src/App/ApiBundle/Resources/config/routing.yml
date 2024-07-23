@@ -1,0 +1,12 @@
+api_login:
+    resource: "@AppApiBundle/Resources/config/login.yml"
+    
+api_users:
+    resource: "@AppApiBundle/Resources/config/users.yml"
+
+api_settings:
+    resource: "@AppApiBundle/Resources/config/settings.yml"
+
+api_articles:
+    resource: "@AppApiBundle/Resources/config/articles.yml"
+    

@@ -1,0 +1,19 @@
+
+app_frontend:
+    resource: "@AppFrontendBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app_api:
+    resource: "@AppApiBundle/Resources/config/routing.yml"
+    prefix:   /api
+    defaults:
+        _format: json
+    
+app_backend:
+    resource: "@AppBackOfficeBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
