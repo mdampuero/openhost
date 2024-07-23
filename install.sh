@@ -7,7 +7,6 @@ docker exec -ti openhost-php composer install
 echo "################################################"
 echo "##                Crear database              ##"
 echo "################################################"
-docker exec -it openhost-php php bin/console doctrine:database:create
 docker exec -it openhost-php php bin/console doctrine:schema:update --force
 docker exec -it openhost-php php bin/console doctrine:fixture:load
 docker exec -ti openhost-php php bin/console assets:install
